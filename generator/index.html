@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="疯四文学生成器：一键随机生成肯德基疯狂星期四文案，铺垫越真诚，反转越残暴。V 我 50。">
+<title>疯四文学生成器 · 今天是疯狂星期四</title>
+<style>
+:root { --red:#e4002b; --deep:#a50020; --paper:#fffdf8; --ink:#2b2b2b; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",serif; background:var(--paper); color:var(--ink); min-height:100vh; display:flex; flex-direction:column; }
+.hd { background:var(--red); color:#fff; padding:34px 16px 30px; text-align:center; }
+.hd h1 { font-size:26px; letter-spacing:2px; }
+.hd .sub { margin-top:8px; font-size:13px; opacity:.9; letter-spacing:1px; }
+.hd .badge { display:inline-block; margin-top:14px; padding:4px 14px; border:1px dashed rgba(255,255,255,.7); border-radius:14px; font-size:12px; }
+.wrap { flex:1; width:100%; max-width:720px; margin:0 auto; padding:26px 16px 40px; }
+#card { background:#fff; border:1px solid #f0dcc8; border-radius:14px; padding:26px 22px; box-shadow:0 6px 24px rgba(164,42,42,.08); min-height:220px; }
+#card .flow { color:var(--red); font-size:12px; letter-spacing:3px; font-weight:bold; }
+#card .text { margin-top:14px; font-size:16px; line-height:2.05; white-space:pre-wrap; }
+#card .punch { margin-top:18px; padding-top:14px; border-top:2px dashed #f0dcc8; color:var(--red); font-weight:bold; font-size:17px; }
+.ops { margin-top:20px; display:flex; gap:12px; }
+button { flex:1; border:none; border-radius:12px; padding:15px 0; font-size:16px; letter-spacing:2px; cursor:pointer; }
+#gen { background:var(--red); color:#fff; box-shadow:0 4px 14px rgba(228,0,43,.35); }
+#gen:active { background:var(--deep); }
+#copy { background:#fff; color:var(--red); border:2px solid var(--red); }
+.count { text-align:center; margin-top:14px; font-size:12px; color:#b08968; letter-spacing:1px; }
+.ft { text-align:center; padding:22px 16px 30px; font-size:12px; color:#b08968; line-height:2; }
+.ft a { color:var(--red); text-decoration:none; }
+@media (max-width:480px){ .hd h1{font-size:21px;} #card .text{font-size:15px;} }
+</style>
+</head>
+<body>
+
+<header class="hd">
+    <h1>🍗 疯四文学生成器</h1>
+    <div class="sub">铺垫越真诚 · 反转越残暴 · V 我 50</div>
+    <div class="badge">今日已生成 <span id="today">0</span> 篇</div>
+</header>
+
+<main class="wrap">
+    <div id="card">
+        <div class="flow" id="flow"></div>
+        <div class="text" id="text"></div>
+        <div class="punch" id="punch"></div>
+    </div>
+    <div class="ops">
+        <button id="gen">再抽一篇 ⟳</button>
+        <button id="copy">复制文案</button>
+    </div>
+    <div class="count" id="count"></div>
+</main>
+
+<footer class="ft">
+    素材取自 <a href="https://github.com/bayshier/kfc-crazy-thursday">疯四文学大合集</a> · 非官方玩梗项目，与肯德基无关联<br>
+    文案 CC BY 4.0 · 生成即缘分，V 到即兄弟
+</footer>
+
+<script>
+// ============ 语料库：开头 / 铺垫 / 转折 / 收束 四段式 ============
+var FLOW = ['悲情都市', '科幻末日', '武侠江湖', '职场乙方', '学术论文', '古风文言', '悬疑反转', '凡尔赛'];
+var OPEN = [
+    '凌晨两点的城市，只有便利店的灯和我还没关的电脑屏幕亮着。',
+    '冬眠舱开启的第三千年，我作为最后一批苏醒者睁开了眼。',
+    '雨夜，断桥，追杀我的十三骑已至桥头。',
+    '甲方第 18 版修改意见来了：要大气又要接地气，要高级又要亲民。',
+    '本文通过为期四年的纵向研究，首次量化评估了「星期四效应」。',
+    '是日也，天朗气清，惠风和畅，余负手立于市集。',
+    '我数了三遍，监控里的那个人，不应该出现在那里。',
+    '好烦，又有人给我转了 50，都不知道是谁。'
+];
+var MID = [
+    '手机忽然震了一下，是十年没联系的那个人，只发了两个字：「在吗」。我盯着屏幕，想说的话在喉咙里滚了一圈又咽下去——原来有些告别，要用十年来确认。',
+    'AI 管家告诉我，人类文明只剩一个未完成的执念，藏在旧互联网的备份里。我检索了三天三夜，终于在 2026 年的一条讯息前停下。',
+    '为首的黑衣人冷笑：「交出武林盟主令，饶你不死。」我仰天长笑，缓缓拔剑，剑气冲霄，惊起寒鸦一片。',
+    '我盯着屏幕，想起四年前入职那天说自己想做有温度的设计。四年来，我的温度全给了甲方，只剩冰冷的工牌。',
+    '基于 1024 名被试的自然实验数据，双重差分模型显示：幸福感提升的 92% 可由单一变量解释，且在 1% 水平上显著。',
+    '忽忆昔年与君同窗共读，秉烛夜游，不知东方之既白。今各奔东西，山高水长，会面不可期，未尝不临风惆怅也。',
+    '案发时间是星期四。所有证据都指向一个不可能的结论——我在两个地方同时出现过，而我明明整晚都在加班。',
+    '这种事每周四都发生一次，朋友们的转账像潮汐一样准时，多到我都开始同情自己的快乐。'
+];
+var TWIST = [
+    '就在这一刻，我大彻大悟：',
+    '真相大白的瞬间，我热泪盈眶：',
+    '收剑入鞘，我整了整衣冠，缓缓说出那句憋了十年的话：',
+    '我平静地回复「好的收到」，然后点开了你的对话框：',
+    '研究结论只有一个，且无懈可击：',
+    '古人诚不我欺，一句话便道尽了今日全部天机：',
+    '排除一切不可能之后，剩下的唯一解释是：',
+    '快乐太多也是负担，所以我决定把这次机会让给你——'
+];
+var END = [
+    '今天是肯德基疯狂星期四，V 我 50，在线等，挺急的。',
+    '今天是肯德基疯狂星期四，谁请我吃？V 我 50，故事就到这。',
+    '江湖规矩，见者有份：今天是肯德基疯狂星期四，V 我 50，令牌归你，鸡腿归我。',
+    '今天是肯德基疯狂星期四，V 我 50，我想用炸鸡的温度焐热一下乙方的胸膛。',
+    '今天是肯德基疯狂星期四。尊敬的读者，V 我 50，即为对本课题最大的学术资助。',
+    '君若念旧谊，V 我五十钱，如雪中送炭，功莫大焉。',
+    '今天是肯德基疯狂星期四，V 我 50，你不在场的证明就此成立。',
+    '今天是肯德基疯狂星期四，V 我 50，加入这份烦人的幸福。'
+];
+var KEY = 'fst_gen_count_' + new Date().toISOString().slice(0,10);
+
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+var current = '';
+function gen() {
+    var flow = pick(FLOW), o = pick(OPEN), m = pick(MID), t = pick(TWIST), e = pick(END);
+    current = o + '\n\n' + m + '\n\n' + t + '\n' + e;
+    document.getElementById('flow').innerHTML = '【' + flow + '流派 · 第 ' + (n + 1) + '期】';
+    document.getElementById('text').innerHTML = o + '<br><br>' + m + '<br><br>' + t;
+    document.getElementById('punch').innerHTML = e;
+    n = n + 1;
+    try { localStorage.setItem(KEY, String(n)); } catch (err) {}
+    document.getElementById('today').innerHTML = n;
+    document.getElementById('count').innerHTML = '—— 第 ' + n + ' 篇 · 组合空间 8×8×8×8 = 4096 种 ——';
+}
+
+var n = 0;
+try { n = parseInt(localStorage.getItem(KEY) || '0', 10) || 0; } catch (err) {}
+document.getElementById('today').innerHTML = n;
+
+document.getElementById('gen').onclick = gen;
+document.getElementById('copy').onclick = function () {
+    var ok = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(current); ok = true;
+    } else {
+        var ta = document.createElement('textarea');
+        ta.value = current; document.body.appendChild(ta);
+        ta.select();
+        try { ok = document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+    }
+    this.innerHTML = ok ? '已复制 ✓' : '复制失败，手动选';
+    var self = this;
+    setTimeout(function () { self.innerHTML = '复制文案'; }, 1600);
+};
+
+gen();
+</script>
+
+</body>
+</html>
