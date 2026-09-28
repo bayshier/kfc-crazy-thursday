@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+<rect width="1080" height="1440" fill="#e4002b"/>
+<rect x="28" y="28" width="1024" height="1384" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="4" stroke-dasharray="18 12" rx="18"/>
+<text x="540" y="280" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" font-size="48" fill="#ffffff" fill-opacity="0.95" letter-spacing="10">程 序 员 之 伤</text>
+<rect x="120" y="380" width="840" height="480" rx="28" fill="#2b2b2b"/>
+<text x="180" y="480" font-family="Menlo,Consolas,monospace" font-size="36" fill="#ff6b81">Exception in thread "main"</text>
+<text x="180" y="560" font-family="Menlo,Consolas,monospace" font-size="36" fill="#ffffff">java.lang.NoMoneyException:</text>
+<text x="180" y="640" font-family="Menlo,Consolas,monospace" font-size="36" fill="#ffd166">KFC_CRAZY_THURSDAY_VME50</text>
+<text x="180" y="720" font-family="Menlo,Consolas,monospace" font-size="36" fill="#ffffff" fill-opacity="0.7">  at Every.Thursday.main(Thursday.java:50)</text>
+<text x="540" y="1020" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" font-size="46" fill="#ffffff" letter-spacing="6">修复方案：转我 50，立即恢复</text>
+<text x="540" y="1150" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" font-size="30" fill="#ffffff" fill-opacity="0.92" letter-spacing="6">一 周 一 复 发 · 无 法 根 治</text>
+<text x="540" y="1220" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" font-size="28" fill="#ffffff" fill-opacity="0.92" letter-spacing="6">V 我 50 · 标本兼治</text>
+</svg>

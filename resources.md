@@ -15,6 +15,11 @@
 | GitHub | `crazy thursday`、`疯狂星期四`、`v me 50` | 开源梗项目（文案库、机器人、生成器） |
 | X / Twitter | `KFC Crazy Thursday`、`v me 50` | 出海版疯四文学与文化交流 |
 
+> 视频类资源已单独立页：[videos.md](videos.md) 收录五大平台一键直达入口、
+> 内容生态图鉴与收录规范。文字类资源看 [literature/classics.md](literature/classics.md)
+> （网络流传经典 40 篇）与 [literature/parody-famous.md](literature/parody-famous.md)
+> （名家风格原创仿写）。
+
 ## 🏛 官方入口
 
 - 肯德基中国官网 / App / 「肯德基+」小程序：疯狂星期四活动主会场（每周四更新）
